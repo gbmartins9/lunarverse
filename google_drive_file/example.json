@@ -1,0 +1,58 @@
+{
+    "id": "a8cc7fc0-5377-4720-b7dd-bf3e23cea36f",
+    "name": "Google Drive Download File component example",
+    "description": "A one-component workflow illustrating the use of Google Drive Download File component.",
+    "version": null,
+    "components": [
+        {
+            "id": "0d9bc0b1-1216-4bd1-b409-bc8907bd41f4",
+            "workflow_id": null,
+            "name": "Google Drive Download File",
+            "class_name": "GoogleDriveDownloadFile",
+            "description": "This component automates the process of reading files from Google Drive.",
+            "group": "Data Extraction",
+            "inputs": [
+                {
+                    "id": "4538192b-cafc-481e-a51d-09d062b93ac3",
+                    "key": "file_id",
+                    "data_type": "TEXT",
+                    "value": ":undef:",
+                    "template_variables": {},
+                    "component_id": "0d9bc0b1-1216-4bd1-b409-bc8907bd41f4"
+                }
+            ],
+            "output": {
+                "data_type": "TEXT",
+                "value": ":undef:"
+            },
+            "label": "GoogleDriveDownloadFile_0d9bc0b1-1216-4bd1-b409-bc8907bd41f4",
+            "configuration": {
+                "force_run": false,
+                "credentials_file": "$LUNARENV::GOOGLE_CREDENTIALS_FILE"
+            },
+            "version": null,
+            "is_custom": false,
+            "is_terminal": true,
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "timeout": 600,
+            "component_code": "google_drive_download_file/google_drive_download_file/__init__.py",
+            "component_code_requirements": [
+                "googleapiclient"
+            ],
+            "component_example_path": null,
+            "invalid_errors": []
+        }
+    ],
+    "dependencies": [],
+    "timeout": 3600,
+    "auto_component_spacing": {
+        "dx": 450.0,
+        "dy": 350.0,
+        "x0": 0.0,
+        "y0": 0.0
+    },
+    "invalid_errors": []
+}

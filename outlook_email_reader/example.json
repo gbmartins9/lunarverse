@@ -1,0 +1,68 @@
+{
+    "id": "01278eee-814b-477f-bedd-22887b4c1fc6",
+    "name": "Outlook Email Reader component example",
+    "description": "A one-component workflow illustrating the use of Outlook Email Reader component.",
+    "version": null,
+    "components": [
+        {
+            "id": "c2ae935d-3956-48de-bbf4-54fe8b2b8f01",
+            "workflow_id": null,
+            "name": "Outlook Email Reader",
+            "class_name": "OutlookEmailReader",
+            "description": "This component automates the process of reading emails using the Outlook API.",
+            "group": "Data Extraction",
+            "inputs": [
+                {
+                    "id": "c6c0a067-377c-42d3-babc-0a27461c9a06",
+                    "key": "email",
+                    "data_type": "TEXT",
+                    "value": ":undef:",
+                    "template_variables": {},
+                    "component_id": "c2ae935d-3956-48de-bbf4-54fe8b2b8f01"
+                },
+                {
+                    "id": "6bdc4bc9-d405-4756-97c3-c18f88dc4b9a",
+                    "key": "folder",
+                    "data_type": "TEXT",
+                    "value": ":undef:",
+                    "template_variables": {},
+                    "component_id": "c2ae935d-3956-48de-bbf4-54fe8b2b8f01"
+                }
+            ],
+            "output": {
+                "data_type": "TEXT",
+                "value": ":undef:"
+            },
+            "label": "OutlookEmailReader_c2ae935d-3956-48de-bbf4-54fe8b2b8f01",
+            "configuration": {
+                "force_run": false,
+                "client_id": "$LUNARENV::OUTLOOK_CLIENT_ID",
+                "client_secret": "$LUNARENV::OUTLOOK_CLIENT_SECRET",
+                "tenant_id": "$LUNARENV::OUTLOOK_TENANT_ID"
+            },
+            "version": null,
+            "is_custom": false,
+            "is_terminal": true,
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "timeout": 600,
+            "component_code": "OutlookEmailReader/OutlookEmailReader/__init__.py",
+            "component_code_requirements": [
+                "msal"
+            ],
+            "component_example_path": null,
+            "invalid_errors": []
+        }
+    ],
+    "dependencies": [],
+    "timeout": 3600,
+    "auto_component_spacing": {
+        "dx": 450.0,
+        "dy": 350.0,
+        "x0": 0.0,
+        "y0": 0.0
+    },
+    "invalid_errors": []
+}
