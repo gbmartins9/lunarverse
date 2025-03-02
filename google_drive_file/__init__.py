@@ -1,5 +1,6 @@
 import os
 import io
+import re
 from typing import Optional
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
@@ -14,8 +15,8 @@ from lunarcore.core.typings.datatypes import DataType
 class GoogleDriveFile(
     BaseComponent,
     component_name="Google Drive File",
-    component_description="This component downloads files from Google Drive.",
-    input_types={"file_id": DataType.TEXT, "credentials_json": DataType.TEXT},
+    component_description="This component replaces the xlsx file in Google Drive.",
+    input_types={"file_link": DataType.TEXT, "credentials_json": DataType.TEXT},
     output_type=DataType.TEXT,
     component_group=ComponentGroup.DATA_EXTRACTION,
 ):
@@ -23,13 +24,19 @@ class GoogleDriveFile(
     def __init__(self, model: Optional[ComponentModel] = None, **kwargs):
         super().__init__(model, configuration=kwargs)
 
+    def extract_file_id(self, file_link: str) -> str:
+        match = re.search(r'/d/([a-zA-Z0-9_-]+)', file_link)
+        if not match:
+            raise ValueError("Invalid Google Drive link")
+        return match.group(1)
 
-    def run(self, file_id: str, credentials_json: str) -> str:
+    def run(self, file_link: str, credentials_json: str) -> str:
         SCOPES = ["https://www.googleapis.com/auth/drive"]
         creds = Credentials.from_service_account_file(str(credentials_json), scopes=SCOPES)
 
         service = build("drive", "v3", credentials=creds)
 
+        file_id = self.extract_file_id(file_link)
         file_metadata = service.files().get(fileId=file_id).execute()
         file_name = file_metadata['name']
 
