@@ -20,20 +20,23 @@ class SendEmail(
         super().__init__(model, configuration=kwargs)
 
     def run(self, smtp_server: str, smtp_port: str, email_sender: str, password: str, recipient: str, subject: str, body: str) -> str:
-        msg = MIMEMultipart()
-        msg["From"] = email_sender
-        msg["To"] = recipient
-        msg["Subject"] = subject
-
-        msg.attach(MIMEText(body, "plain"))
+        recipients_list = [email.strip() for email in recipient.split(';')]
 
         try:
             server = smtplib.SMTP(smtp_server, smtp_port)
             server.starttls()
             server.login(email_sender, password)
-            server.sendmail(email_sender, recipient, msg.as_string())
+
+            for recipient_email in recipients_list:
+                msg = MIMEMultipart()
+                msg["From"] = email_sender
+                msg["To"] = recipient_email
+                msg["Subject"] = subject
+                msg.attach(MIMEText(body, "plain"))
+                server.sendmail(email_sender, recipient_email, msg.as_string())
+
             server.quit()
         except Exception as e:
             raise Exception(f"Failed to send email: {e}")
 
-        return "Email sent successfully"
+        return "Emails sent successfully"
