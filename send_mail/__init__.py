@@ -20,6 +20,9 @@ class SendEmail(
         super().__init__(model, configuration=kwargs)
 
     def run(self, smtp_server: str, smtp_port: str, email_sender: str, password: str, recipient: str, subject: str, body: str) -> str:
+        if body == "":
+            return "Emails not sent successfully"
+        
         recipients_list = [email.strip() for email in recipient.split(';')]
 
         try:

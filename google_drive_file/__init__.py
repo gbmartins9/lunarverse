@@ -2,8 +2,8 @@ import os
 import io
 import re
 from typing import Optional
-from googleapiclient.discovery import build
-from googleapiclient.http import MediaIoBaseDownload
+from googleapiclient import discovery
+from googleapiclient import http
 from google.oauth2.service_account import Credentials
 import json
 
@@ -34,7 +34,7 @@ class GoogleDriveFile(
         SCOPES = ["https://www.googleapis.com/auth/drive"]
         creds = Credentials.from_service_account_file(str(credentials_json), scopes=SCOPES)
 
-        service = build("drive", "v3", credentials=creds)
+        service = discovery.build("drive", "v3", credentials=creds)
 
         file_id = self.extract_file_id(file_link)
         file_metadata = service.files().get(fileId=file_id).execute()
@@ -42,7 +42,7 @@ class GoogleDriveFile(
 
         request = service.files().get_media(fileId=file_id)
         file = io.BytesIO()
-        downloader = MediaIoBaseDownload(file, request)
+        downloader = http.MediaIoBaseDownload(file, request)
 
         done = False
         while not done:

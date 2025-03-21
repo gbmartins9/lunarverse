@@ -93,7 +93,7 @@ class GmailAttachment(
                                 try:
                                     with open(filepath, "wb") as f:
                                         f.write(part.get_payload(decode=True))
-                                    output_files.append(filepath)
+                                    output_files.append(os.path.abspath(filepath))
                                 except Exception as e:
                                     raise Exception(f"Failed to save attachment '{filename}': {e}")
 

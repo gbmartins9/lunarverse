@@ -55,14 +55,11 @@ class Xlsx2XlsxGoogleDrive(
         with open(output_file_path, "wb") as f:
             f.write(file.read())
 
-        # Process the Excel file
         df = pd.read_excel(excel_file, usecols=lambda column: not column.startswith('Unnamed'))
         dicionario = df.to_dict()
 
-        # Dictionary to store cell values
         dicionario_celulas = {}
 
-        # List of keys (columns) in the desired order
         colunas = list(dicionario.keys())
 
         for indice_col, nome_coluna in enumerate(colunas):
@@ -72,33 +69,23 @@ class Xlsx2XlsxGoogleDrive(
             for indice_linha, valor in dicionario[nome_coluna].items():
                 dicionario_celulas[f"{letra_coluna}{indice_linha + 2}"] = valor
 
-        # Open the downloaded Excel file
         wb = load_workbook(output_file_path)
-        ws = wb.active  # or select the specific sheet if needed
+        ws = wb.active
 
-        # Update the cells with new values
         for cell, value in dicionario_celulas.items():
             ws[cell].value = value
 
         temp_updated_path = "/tmp/temp_updated.xlsx"
         wb.save(temp_updated_path)
 
-        # Create upload object for the updated file
         media = MediaFileUpload(temp_updated_path,
                                 mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                                 resumable=True)
 
-        # Update (replace) the existing file on Drive
         updated_file = service.files().update(
             fileId=file_id,
             media_body=media,
             fields="id, name"
-        ).execute()
-
-        print(f"Arquivo '{updated_file['name']}' atualizado com sucesso no Google Drive!")
-        
-        # Clean up temporary files
-        os.remove(output_file_path)
-        os.remove(temp_updated_path)
+        ).execute()        
 
         return updated_file['name']
