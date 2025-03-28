@@ -21,7 +21,9 @@ class SendEmail(
 
     def run(self, smtp_server: str, smtp_port: str, email_sender: str, password: str, recipient: str, subject: str, body: str) -> str:
         if body == "":
-            return "Emails not sent successfully"
+            return "Emails not sent successfully: There's not body"
+        if recipient == "":
+            return "Emails not sent successfully: There's not recipient"
         
         recipients_list = [email.strip() for email in recipient.split(';')]
 
